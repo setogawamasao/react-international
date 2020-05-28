@@ -1,6 +1,5 @@
 import React from "react";
-import { IntlProvider } from "react-intl";
-import AppRoute from "./AppRoute";
+import { IntlProvider, FormattedMessage } from "react-intl";
 
 class App extends React.Component<
   {},
@@ -17,7 +16,7 @@ class App extends React.Component<
   render() {
     return (
       <IntlProvider locale={this.state.locale} messages={this.state.messages}>
-        <AppRoute />
+        <FormattedMessage id="greet" />
       </IntlProvider>
     );
   }
