@@ -1,25 +1,46 @@
-import React from "react";
-import { IntlProvider, FormattedMessage } from "react-intl";
+import React, { useState } from "react";
+import { IntlProvider } from "react-intl";
 
-class App extends React.Component<
-  {},
-  { locale: string; messages: Record<string, string> }
-> {
-  constructor(prop: any) {
-    super(prop);
-    this.state = {
-      locale: "en",
-      messages: { greet: "hello" },
-    };
+import { Child } from "./Child";
+
+const App: React.FC = () => {
+  const [locale, setLocale] = useState("ja");
+
+  const englishMessages: Record<string, string> = {
+    greet: "hello",
+    buttonName: "click me !",
+  };
+
+  const japaneseMessages: Record<string, string> = {
+    greet: "こんにちは",
+    buttonName: "押して !",
+  };
+
+  let messages: Record<string, string> = {};
+
+  switch (locale) {
+    case "en":
+      messages = englishMessages;
+      break;
+    case "ja":
+      messages = japaneseMessages;
   }
 
-  render() {
-    return (
-      <IntlProvider locale={this.state.locale} messages={this.state.messages}>
-        <FormattedMessage id="greet" />
+  const setLangage = (event: any) => {
+    setLocale(event);
+  };
+
+  return (
+    <>
+      <input type="radio" name="langage" onChange={() => setLangage("en")} />
+      English
+      <input type="radio" name="langage" onChange={() => setLangage("ja")} />
+      日本語
+      <IntlProvider locale={locale} messages={messages}>
+        <Child />
       </IntlProvider>
-    );
-  }
-}
+    </>
+  );
+};
 
 export default App;
