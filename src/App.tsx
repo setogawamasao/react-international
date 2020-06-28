@@ -1,30 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IntlProvider } from "react-intl";
 
 import { Child } from "./Child";
+import { getYaml } from "./intlUtil";
 
 const App: React.FC = () => {
   const [locale, setLocale] = useState("ja");
+  const [messages, setMessages] = useState<Record<string, string>>({});
 
-  const englishMessages: Record<string, string> = {
-    greet: "hello",
-    buttonName: "click me !",
-  };
-
-  const japaneseMessages: Record<string, string> = {
-    greet: "こんにちは",
-    buttonName: "押して !",
-  };
-
-  let messages: Record<string, string> = {};
-
-  switch (locale) {
-    case "en":
-      messages = englishMessages;
-      break;
-    case "ja":
-      messages = japaneseMessages;
-  }
+  useEffect(() => {
+    const getlangage = async () => {
+      setMessages(await getYaml(locale));
+    };
+    getlangage();
+  }, [locale]);
 
   const setLangage = (event: any) => {
     setLocale(event);
